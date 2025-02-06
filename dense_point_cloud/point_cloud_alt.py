@@ -497,13 +497,9 @@ def multiplication_by_number(list_points, number = 100):
 
 def get_features(keypoints, method):
     if method == "realsense":
-        print("No se pueden extraer características con RealSense.")
-        print("Keypoints: ", len(keypoints), len(keypoints[0]))
         tmp_keypoints = []
         for person in keypoints:
             tmp_keypoints.append(multiplication_by_number(person))
-        print("------------------------------------")
-        print("TEMP Keypoints: ", len(tmp_keypoints), len(tmp_keypoints[0]))
         keypoints = np.array(tmp_keypoints)
 
     list_heights = []
