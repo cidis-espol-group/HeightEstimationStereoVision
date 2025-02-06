@@ -489,7 +489,23 @@ def generate_individual_filtered_point_clouds(
         max_coords = get_max_coordinates(point_cloud_list)
         return point_cloud_list, color_list, keypoints3d_list, max_coords
 
-def get_features(keypoints):
+def multiplication_by_number(list_points, number = 100):
+    return [
+        [valor * number for valor in sublista] 
+        for sublista in list_points
+    ]
+
+def get_features(keypoints, method):
+    if method == "realsense":
+        print("No se pueden extraer características con RealSense.")
+        print("Keypoints: ", len(keypoints), len(keypoints[0]))
+        tmp_keypoints = []
+        for person in keypoints:
+            tmp_keypoints.append(multiplication_by_number(person))
+        print("------------------------------------")
+        print("TEMP Keypoints: ", len(tmp_keypoints), len(tmp_keypoints[0]))
+        keypoints = np.array(tmp_keypoints)
+
     list_heights = []
     list_tronco_normal = []
     list_centroides = []
@@ -623,14 +639,14 @@ def generate_filtered_point_cloud_with_features(
         max_coords = get_max_coordinates(normalized_pcs)
 
         # Extraer características
-        features = get_features(normalized_kpts)
+        features = get_features(normalized_kpts, method)
         return normalized_pcs, color_list, normalized_kpts, features, max_coords
 
     else:
         prepare_individual_point_clouds(point_cloud_list, color_list, keypoints3d_list)
         max_coords = get_max_coordinates(point_cloud_list)
 
-        features = get_features(keypoints3d_list)
+        features = get_features(keypoints3d_list, method)
         return point_cloud_list, color_list, keypoints3d_list, features, max_coords
 
 
